@@ -582,7 +582,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 					logger.warn("Exception encountered during context initialization - " +
 							"cancelling refresh attempt: " + ex);
 				}
-				
+
 				// Destroy already created singletons to avoid dangling resources.
 				// 销毁已经初始化的 singleton 的 Beans，以免有些 bean 会一直占用资源
 				destroyBeans();
@@ -608,6 +608,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void prepareRefresh() {
 		// Switch to active.
+		// 记录启动时间，
+		// 将 active 属性设置为 true，closed 属性设置为 false，它们都是 AtomicBoolean 类型
 		this.startupDate = System.currentTimeMillis();
 		this.closed.set(false);
 		this.active.set(true);
@@ -626,6 +628,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
+		// 校验 xml 配置文件
 		getEnvironment().validateRequiredProperties();
 
 		// Store pre-refresh ApplicationListeners...
