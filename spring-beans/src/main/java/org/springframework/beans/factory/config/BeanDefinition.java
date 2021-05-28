@@ -54,107 +54,51 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	int ROLE_INFRASTRUCTURE = 2;
 
 
-	// Modifiable attributes
-
-	/**
-	 * Set the name of the parent definition of this bean definition, if any.
-	 */
+	// 设置父 Bean，这里涉及到 bean 继承，不是 java 继承。请参见附录的详细介绍
+	// 一句话就是：继承父 Bean 的配置信息而已
 	void setParentName(@Nullable String parentName);
 
-	/**
-	 * Return the name of the parent definition of this bean definition, if any.
-	 */
+	// 获取父 Bean
 	@Nullable
 	String getParentName();
 
-	/**
-	 * Specify the bean class name of this bean definition.
-	 * <p>The class name can be modified during bean factory post-processing,
-	 * typically replacing the original class name with a parsed variant of it.
-	 * @see #setParentName
-	 * @see #setFactoryBeanName
-	 * @see #setFactoryMethodName
-	 */
+	// 设置 Bean 的类名称，将来是要通过反射来生成实例的
 	void setBeanClassName(@Nullable String beanClassName);
 
-	/**
-	 * Return the current bean class name of this bean definition.
-	 * <p>Note that this does not have to be the actual class name used at runtime, in
-	 * case of a child definition overriding/inheriting the class name from its parent.
-	 * Also, this may just be the class that a factory method is called on, or it may
-	 * even be empty in case of a factory bean reference that a method is called on.
-	 * Hence, do <i>not</i> consider this to be the definitive bean type at runtime but
-	 * rather only use it for parsing purposes at the individual bean definition level.
-	 * @see #getParentName()
-	 * @see #getFactoryBeanName()
-	 * @see #getFactoryMethodName()
-	 */
+	// 获取 Bean 的类名称
 	@Nullable
 	String getBeanClassName();
 
-	/**
-	 * Override the target scope of this bean, specifying a new scope name.
-	 * @see #SCOPE_SINGLETON
-	 * @see #SCOPE_PROTOTYPE
-	 */
+	// 设置 bean 的 scope
 	void setScope(@Nullable String scope);
 
-	/**
-	 * Return the name of the current target scope for this bean,
-	 * or {@code null} if not known yet.
-	 */
 	@Nullable
 	String getScope();
 
-	/**
-	 * Set whether this bean should be lazily initialized.
-	 * <p>If {@code false}, the bean will get instantiated on startup by bean
-	 * factories that perform eager initialization of singletons.
-	 */
+	// 设置是否懒加载
 	void setLazyInit(boolean lazyInit);
 
-	/**
-	 * Return whether this bean should be lazily initialized, i.e. not
-	 * eagerly instantiated on startup. Only applicable to a singleton bean.
-	 */
 	boolean isLazyInit();
 
-	/**
-	 * Set the names of the beans that this bean depends on being initialized.
-	 * The bean factory will guarantee that these beans get initialized first.
-	 */
+	// 设置该 Bean 依赖的所有的 Bean，注意，这里的依赖不是指属性依赖(如 @Autowire 标记的)，
+	// 是 depends-on="" 属性设置的值。
 	void setDependsOn(@Nullable String... dependsOn);
 
-	/**
-	 * Return the bean names that this bean depends on.
-	 */
+	// 返回该 Bean 的所有依赖
 	@Nullable
 	String[] getDependsOn();
 
-	/**
-	 * Set whether this bean is a candidate for getting autowired into some other bean.
-	 * <p>Note that this flag is designed to only affect type-based autowiring.
-	 * It does not affect explicit references by name, which will get resolved even
-	 * if the specified bean is not marked as an autowire candidate. As a consequence,
-	 * autowiring by name will nevertheless inject a bean if the name matches.
-	 */
+	// 设置该 Bean 是否可以注入到其他 Bean 中，只对根据类型注入有效，
+	// 如果根据名称注入，即使这边设置了 false，也是可以的
 	void setAutowireCandidate(boolean autowireCandidate);
 
-	/**
-	 * Return whether this bean is a candidate for getting autowired into some other bean.
-	 */
+	// 该 Bean 是否可以注入到其他 Bean 中
 	boolean isAutowireCandidate();
 
-	/**
-	 * Set whether this bean is a primary autowire candidate.
-	 * <p>If this value is {@code true} for exactly one bean among multiple
-	 * matching candidates, it will serve as a tie-breaker.
-	 */
+	// 主要的。同一接口的多个实现，如果不指定名字的话，Spring 会优先选择设置 primary 为 true 的 bean
 	void setPrimary(boolean primary);
 
-	/**
-	 * Return whether this bean is a primary autowire candidate.
-	 */
+	// 是否是 primary 的
 	boolean isPrimary();
 
 	/**
