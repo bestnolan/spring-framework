@@ -40,46 +40,17 @@ import org.springframework.lang.Nullable;
  */
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
-	/**
-	 * Scope identifier for the standard singleton scope: {@value}.
-	 * <p>Note that extended bean factories might support further scopes.
-	 * @see #setScope
-	 * @see ConfigurableBeanFactory#SCOPE_SINGLETON
-	 */
-	String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+	// 我们可以看到，默认只提供 sington 和 prototype 两种，
+	// 很多读者可能知道还有 request, session, globalSession, application, websocket 这几种，
+	// 不过，它们属于基于 web 的扩展。
 
-	/**
-	 * Scope identifier for the standard prototype scope: {@value}.
-	 * <p>Note that extended bean factories might support further scopes.
-	 * @see #setScope
-	 * @see ConfigurableBeanFactory#SCOPE_PROTOTYPE
-	 */
+	String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
 	String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 
-	/**
-	 * Role hint indicating that a {@code BeanDefinition} is a major part
-	 * of the application. Typically corresponds to a user-defined bean.
-	 */
+	// 比较不重要，直接跳过吧
 	int ROLE_APPLICATION = 0;
-
-	/**
-	 * Role hint indicating that a {@code BeanDefinition} is a supporting
-	 * part of some larger configuration, typically an outer
-	 * {@link org.springframework.beans.factory.parsing.ComponentDefinition}.
-	 * {@code SUPPORT} beans are considered important enough to be aware
-	 * of when looking more closely at a particular
-	 * {@link org.springframework.beans.factory.parsing.ComponentDefinition},
-	 * but not when looking at the overall configuration of an application.
-	 */
 	int ROLE_SUPPORT = 1;
-
-	/**
-	 * Role hint indicating that a {@code BeanDefinition} is providing an
-	 * entirely background role and has no relevance to the end-user. This hint is
-	 * used when registering beans that are completely part of the internal workings
-	 * of a {@link org.springframework.beans.factory.parsing.ComponentDefinition}.
-	 */
 	int ROLE_INFRASTRUCTURE = 2;
 
 
