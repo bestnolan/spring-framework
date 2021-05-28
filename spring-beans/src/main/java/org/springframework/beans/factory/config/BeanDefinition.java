@@ -101,40 +101,22 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	// 是否是 primary 的
 	boolean isPrimary();
 
-	/**
-	 * Specify the factory bean to use, if any.
-	 * This the name of the bean to call the specified factory method on.
-	 * @see #setFactoryMethodName
-	 */
+	// 如果该 Bean 采用工厂方法生成，指定工厂名称。对工厂不熟悉的读者，请参加附录
+	// 一句话就是：有些实例不是用反射生成的，而是用工厂模式生成的
 	void setFactoryBeanName(@Nullable String factoryBeanName);
 
-	/**
-	 * Return the factory bean name, if any.
-	 */
+	// 获取工厂名称
 	@Nullable
 	String getFactoryBeanName();
 
-	/**
-	 * Specify a factory method, if any. This method will be invoked with
-	 * constructor arguments, or with no arguments if none are specified.
-	 * The method will be invoked on the specified factory bean, if any,
-	 * or otherwise as a static method on the local bean class.
-	 * @see #setFactoryBeanName
-	 * @see #setBeanClassName
-	 */
+	// 指定工厂类中的 工厂方法名称
 	void setFactoryMethodName(@Nullable String factoryMethodName);
 
-	/**
-	 * Return a factory method, if any.
-	 */
+	// 获取工厂类中的 工厂方法名称
 	@Nullable
 	String getFactoryMethodName();
 
-	/**
-	 * Return the constructor argument values for this bean.
-	 * <p>The returned instance can be modified during bean factory post-processing.
-	 * @return the ConstructorArgumentValues object (never {@code null})
-	 */
+	// 构造器参数
 	ConstructorArgumentValues getConstructorArgumentValues();
 
 	/**
@@ -145,11 +127,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 		return !getConstructorArgumentValues().isEmpty();
 	}
 
-	/**
-	 * Return the property values to be applied to a new instance of the bean.
-	 * <p>The returned instance can be modified during bean factory post-processing.
-	 * @return the MutablePropertyValues object (never {@code null})
-	 */
+	// Bean 中的属性值，后面给 bean 注入属性值的时候会说到
 	MutablePropertyValues getPropertyValues();
 
 	/**
@@ -233,24 +211,14 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 */
 	ResolvableType getResolvableType();
 
-	/**
-	 * Return whether this a <b>Singleton</b>, with a single, shared instance
-	 * returned on all calls.
-	 * @see #SCOPE_SINGLETON
-	 */
+	// 是否 singleton
 	boolean isSingleton();
 
-	/**
-	 * Return whether this a <b>Prototype</b>, with an independent instance
-	 * returned for each call.
-	 * @since 3.0
-	 * @see #SCOPE_PROTOTYPE
-	 */
+	// 是否 prototype
 	boolean isPrototype();
 
-	/**
-	 * Return whether this bean is "abstract", that is, not meant to be instantiated.
-	 */
+	// 如果这个 Bean 是被设置为 abstract，那么不能实例化，
+	// 常用于作为 父bean 用于继承，其实也很少用......
 	boolean isAbstract();
 
 	/**
